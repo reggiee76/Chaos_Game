@@ -1,3 +1,8 @@
+/**
+ * Yezhi Wu and Regina Gil
+ *
+ */
+
 #include <SFML/Graphics.hpp>
 #include <iostream>
 #include <vector>
@@ -10,7 +15,7 @@ int main()
     vector<sf::Vector2f> vertices;
     sf::VertexArray point(sf::Points, MAX_POINT);
     sf::Font font;
-    if (!font.loadFromFile("font/Roboto-Light.ttf"))
+    if (!font.loadFromFile("font/Orbitron.ttf"))
     {
         cout << "Font failed to load" << endl;
     }
