@@ -22,6 +22,9 @@ int main()
     message.setFillColor(sf::Color::White);
     message.setPosition(10.f, 10.f);
 
+    window.draw(message);
+        window.display();
+
     // Handle mouse click events to assign coordinates to the vertices
     int vertexCount = 0;
     while (vertexCount < 3)
@@ -39,54 +42,44 @@ int main()
                 vertices.push_back(clickPosition);
                 vertexCount++;
 
-                cout << "got it" << endl; // REMOVE LATER*****
+                // #TODO: Change to bigger point.
+                sf::VertexArray point(sf::Points, 1);
+                point[0] = clickPosition;
+                window.draw(point);
+                window.display();
             }
         }
-        window.clear(sf::Color::Black);
-        window.draw(message);
-        window.display();
+//        window.clear(sf::Color::Black);
+//        window.draw(message);
+
     }
+    window.clear(sf::Color::Black);
+
+    sf::VertexArray triangle(sf::LineStrip, 4);
 
     // DEBUGGING ***REMOVE LATER****
     for (int i = 0; i < vertices.size(); i++) {
         std::cout << "Vertex " << i << ": " << vertices[i].x << ", " << vertices[i].y << std::endl;
+        triangle[i].position = vertices[i];
     }
-
-    sf::Vertex line[] =
-            {
-                    sf::Vertex(sf::Vector2f(vertices[0].x,vertices[0].y)),
-                    sf::Vertex(sf::Vector2f(vertices[1].x,vertices[1].y)),
-            };
-
-    window.draw(line, 2, sf::Lines);
-    sf::Vertex line1[] =
-            {
-                    sf::Vertex(sf::Vector2f(vertices[1].x,vertices[1].y)),
-                    sf::Vertex(sf::Vector2f(vertices[2].x,vertices[2].y)),
-            };
-
-    window.draw(line1, 2, sf::Lines);
-    sf::Vertex line2[] =
-            {
-                    sf::Vertex(sf::Vector2f(vertices[2].x,vertices[2].y)),
-                    sf::Vertex(sf::Vector2f(vertices[0].x,vertices[0].y)),
-            };
-
-    window.draw(line2, 2, sf::Lines);
+    triangle[3].position = vertices[0];
+    window.draw(triangle);
 
     // Display a message to the user asking them to click on a fourth point to start the algorithm
-//    sf::Text startMessage;
-//    startMessage.setFont(font);
-//    startMessage.setString("Click on a fourth point to start the algorithm");
-//    startMessage.setCharacterSize(24);
-//    startMessage.setFillColor(sf::Color::Yellow);
-//    startMessage.setPosition(10.f, 50.f);
-//
+    sf::Text startMessage;
+    startMessage.setFont(font);
+    startMessage.setString("Click on a fourth point to start the algorithm");
+    startMessage.setCharacterSize(24);
+    startMessage.setFillColor(sf::Color::Yellow);
+    startMessage.setPosition(10.f, 10.f);
+    window.draw(startMessage);
+//    window.display();
 //    // Use the Chaos Game algorithm to draw the Sierpinski Triangle
 //    sf::RectangleShape point(sf::Vector2f(1.f, 1.f));
 //    point.setFillColor(sf::Color::Yellow);
 //    sf::Vector2f currentPosition(sf::Mouse::getPosition(window));
-//
+
+    window.display();
     int pointCount = 0;
     while (window.isOpen())
     {
@@ -124,7 +117,7 @@ int main()
 
 //        window.clear(sf::Color::Black);
 //        window.draw(startMessage);
-        window.display();
+//        window.display();
     }
 
     return 0;
