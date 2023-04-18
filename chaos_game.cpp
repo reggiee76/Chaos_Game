@@ -6,9 +6,9 @@ using namespace std;
 int main()
 {
     sf::RenderWindow window(sf::VideoMode(800, 600), "Chaos Game - Sierpinski Triangle");
-
+    const int MAX_POINT = 10000;
     vector<sf::Vector2f> vertices;
-
+    sf::VertexArray point(sf::Points, MAX_POINT);
     sf::Font font;
     if (!font.loadFromFile("font/Roboto-Light.ttf"))
     {
@@ -43,14 +43,12 @@ int main()
                 vertexCount++;
 
                 // #TODO: Change to bigger point.
-                sf::VertexArray point(sf::Points, 1);
+//                sf::VertexArray point(sf::Points, 1);
                 point[0] = clickPosition;
                 window.draw(point);
                 window.display();
             }
         }
-//        window.clear(sf::Color::Black);
-//        window.draw(message);
 
     }
     window.clear(sf::Color::Black);
@@ -66,58 +64,65 @@ int main()
     window.draw(triangle);
 
     // Display a message to the user asking them to click on a fourth point to start the algorithm
-    sf::Text startMessage;
-    startMessage.setFont(font);
-    startMessage.setString("Click on a fourth point to start the algorithm");
-    startMessage.setCharacterSize(24);
-    startMessage.setFillColor(sf::Color::Yellow);
-    startMessage.setPosition(10.f, 10.f);
-    window.draw(startMessage);
-//    window.display();
-//    // Use the Chaos Game algorithm to draw the Sierpinski Triangle
-//    sf::RectangleShape point(sf::Vector2f(1.f, 1.f));
-//    point.setFillColor(sf::Color::Yellow);
-//    sf::Vector2f currentPosition(sf::Mouse::getPosition(window));
 
+    message.setString("Click on a fourth point to start the algorithm");
+
+    message.setFillColor(sf::Color::Yellow);
+    window.draw(message);
     window.display();
-    int pointCount = 0;
-    while (window.isOpen())
-    {
+    // Use the Chaos Game algorithm to draw the Sierpinski Triangle
+
+    sf::Vector2f algV;
+    vertexCount = 0;
+    while (vertexCount < 1) {
         sf::Event event;
-        while (window.pollEvent(event))
-        {
-            if (event.type == sf::Event::Closed)
-            {
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
                 window.close();
             }
-//            if (event.type == sf::Event::MouseButtonPressed)
-//            {
-//                cout << "point recieved" << endl; //****remove later ****
-//                currentPosition = sf::Vector2f(sf::Mouse::getPosition(window));
-//            }
+            if (event.type == sf::Event::MouseButtonPressed) {
+                sf::Vector2f clickPosition(sf::Mouse::getPosition(window));
+//                vertices.push_back(clickPosition);
+                algV = clickPosition;
+                vertexCount++;
+            }
         }
+    }
 
-//        if (pointCount < 10000)
-//        {
-//            // Generate a random number between 0 and 2
-//            int randomIndex = rand() % 3;
-//
-//            // Calculate the midpoint between the current position and the vertex
-//            sf::Vector2f midpoint((currentPosition.x + vertices[randomIndex].x) / 2.f, (currentPosition.y + vertices[randomIndex].y) / 2.f);
-//
-//            // Update the current position
-//            currentPosition = midpoint;
-//
-//            // Draw the point
-//            point.setPosition(midpoint);
-//            window.draw(point);
-//
-//            pointCount++;
-//        }
 
-//        window.clear(sf::Color::Black);
-//        window.draw(startMessage);
-//        window.display();
+// #TODO: Change to bigger point.
+
+//    point[0] = algV;
+//    window.draw(point);
+//    window.display();
+
+    int pointCount = 0;
+
+//    vector<sf::Vector2f> v2;
+
+    while (window.isOpen()) {
+        sf::Event event;
+        while (window.pollEvent(event)) {
+            if (event.type == sf::Event::Closed) {
+                window.close();
+            }
+        }
+        if (pointCount < MAX_POINT)
+        {
+            int randomIndex = rand() % 3;
+            sf::Vector2f midpoint((algV.x + vertices[randomIndex].x) / 2.f, (algV.y + vertices[randomIndex].y) / 2.f);
+
+            algV = midpoint;
+
+            point[pointCount] = algV;
+            window.clear();
+            window.draw(point);
+//            window.draw(message);
+            window.draw(triangle);
+            window.display();
+
+            pointCount++;
+        }
     }
 
     return 0;
