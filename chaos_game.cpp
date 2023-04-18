@@ -5,15 +5,12 @@ using namespace std;
 
 int main()
 {
-    // Set up the window
     sf::RenderWindow window(sf::VideoMode(800, 600), "Chaos Game - Sierpinski Triangle");
 
-    // Create a vector to store the vertices of the triangle
     vector<sf::Vector2f> vertices;
 
-    // Display a message to the user asking them to click on three points to create the triangle
     sf::Font font;
-    if (!font.loadFromFile("Orbitron.ttf"))
+    if (!font.loadFromFile("font/Roboto-Light.ttf"))
     {
         cout << "Font failed to load" << endl;
     }
@@ -55,20 +52,41 @@ int main()
         std::cout << "Vertex " << i << ": " << vertices[i].x << ", " << vertices[i].y << std::endl;
     }
 
+    sf::Vertex line[] =
+            {
+                    sf::Vertex(sf::Vector2f(vertices[0].x,vertices[0].y)),
+                    sf::Vertex(sf::Vector2f(vertices[1].x,vertices[1].y)),
+            };
+
+    window.draw(line, 2, sf::Lines);
+    sf::Vertex line1[] =
+            {
+                    sf::Vertex(sf::Vector2f(vertices[1].x,vertices[1].y)),
+                    sf::Vertex(sf::Vector2f(vertices[2].x,vertices[2].y)),
+            };
+
+    window.draw(line1, 2, sf::Lines);
+    sf::Vertex line2[] =
+            {
+                    sf::Vertex(sf::Vector2f(vertices[2].x,vertices[2].y)),
+                    sf::Vertex(sf::Vector2f(vertices[0].x,vertices[0].y)),
+            };
+
+    window.draw(line2, 2, sf::Lines);
 
     // Display a message to the user asking them to click on a fourth point to start the algorithm
-    sf::Text startMessage;
-    startMessage.setFont(font);
-    startMessage.setString("Click on a fourth point to start the algorithm");
-    startMessage.setCharacterSize(24);
-    startMessage.setFillColor(sf::Color::Yellow);
-    startMessage.setPosition(10.f, 50.f);
-
-    // Use the Chaos Game algorithm to draw the Sierpinski Triangle
-    sf::RectangleShape point(sf::Vector2f(1.f, 1.f));
-    point.setFillColor(sf::Color::Yellow);
-    sf::Vector2f currentPosition(sf::Mouse::getPosition(window));
-
+//    sf::Text startMessage;
+//    startMessage.setFont(font);
+//    startMessage.setString("Click on a fourth point to start the algorithm");
+//    startMessage.setCharacterSize(24);
+//    startMessage.setFillColor(sf::Color::Yellow);
+//    startMessage.setPosition(10.f, 50.f);
+//
+//    // Use the Chaos Game algorithm to draw the Sierpinski Triangle
+//    sf::RectangleShape point(sf::Vector2f(1.f, 1.f));
+//    point.setFillColor(sf::Color::Yellow);
+//    sf::Vector2f currentPosition(sf::Mouse::getPosition(window));
+//
     int pointCount = 0;
     while (window.isOpen())
     {
@@ -79,33 +97,33 @@ int main()
             {
                 window.close();
             }
-            if (event.type == sf::Event::MouseButtonPressed)
-            {
-                cout << "point recieved" << endl; //****remove later ****
-                currentPosition = sf::Vector2f(sf::Mouse::getPosition(window));
-            }
+//            if (event.type == sf::Event::MouseButtonPressed)
+//            {
+//                cout << "point recieved" << endl; //****remove later ****
+//                currentPosition = sf::Vector2f(sf::Mouse::getPosition(window));
+//            }
         }
 
-        if (pointCount < 10000)
-        {
-            // Generate a random number between 0 and 2
-            int randomIndex = rand() % 3;
+//        if (pointCount < 10000)
+//        {
+//            // Generate a random number between 0 and 2
+//            int randomIndex = rand() % 3;
+//
+//            // Calculate the midpoint between the current position and the vertex
+//            sf::Vector2f midpoint((currentPosition.x + vertices[randomIndex].x) / 2.f, (currentPosition.y + vertices[randomIndex].y) / 2.f);
+//
+//            // Update the current position
+//            currentPosition = midpoint;
+//
+//            // Draw the point
+//            point.setPosition(midpoint);
+//            window.draw(point);
+//
+//            pointCount++;
+//        }
 
-            // Calculate the midpoint between the current position and the vertex
-            sf::Vector2f midpoint((currentPosition.x + vertices[randomIndex].x) / 2.f, (currentPosition.y + vertices[randomIndex].y) / 2.f);
-
-            // Update the current position
-            currentPosition = midpoint;
-
-            // Draw the point
-            point.setPosition(midpoint);
-            window.draw(point);
-
-            pointCount++;
-        }
-
-        window.clear(sf::Color::Black);
-        window.draw(startMessage);
+//        window.clear(sf::Color::Black);
+//        window.draw(startMessage);
         window.display();
     }
 
